@@ -6,12 +6,15 @@ pipeline {
     stage('Say Hello') {
       steps {
         echo "Hello ${params.Name}!"
+        sh 'java -version'
         echo "${TEST_USER_USR}"
         echo "${TEST_USER_PSW}"
-        sh 'java -version'
       }
     }
     stage('Deploy') {
+      options {
+        timeout(time: 30, unit: 'SECONDS')
+      }
       input {
         message 'Should we continue?'
       }
@@ -21,7 +24,7 @@ pipeline {
     }
   }
   environment {
-    MY_NAME = 'Jade'
+    MY_NAME = 'Mary'
     TEST_USER = credentials('test-user')
   }
   parameters {
